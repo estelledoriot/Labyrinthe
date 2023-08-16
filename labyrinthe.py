@@ -21,6 +21,8 @@ class Personnage(pygame.sprite.Sprite):
     """
 
     def __init__(self, x_depart: int, y_depart: int, vitesse: int) -> None:
+        super().__init__()
+
         self.vitesse: int = vitesse
 
         self.image: pygame.Surface = pygame.image.load("pika.png")
@@ -58,6 +60,8 @@ class Objet(pygame.sprite.Sprite):
     """
 
     def __init__(self, x_depart: int, y_depart: int) -> None:
+        super().__init__()
+
         self.image: pygame.Surface = pygame.image.load("pokeball.png")
         self.image = pygame.transform.scale_by(
             self.image, 20 / self.image.get_width()
@@ -78,18 +82,20 @@ class Fond(pygame.sprite.Sprite):
     def __init__(
         self,
         filename: str,
-        x_center: int,
-        y_center: int,
+        largeur: int,
+        hauteur: int,
         rescale: bool = False,
     ) -> None:
+        super().__init__()
+
         self.image: pygame.Surface = pygame.image.load(filename)
         if rescale:
             self.image = pygame.transform.scale_by(
-                self.image, 550 / self.image.get_width()
+                self.image, largeur / self.image.get_width()
             )
 
         self.rect: pygame.Rect = self.image.get_rect()
-        self.rect.center = x_center, y_center
+        self.rect.center = largeur // 2, hauteur // 2
 
 
 class Message:
@@ -176,7 +182,7 @@ class Partie:
     """Partie de labyrinthe"""
 
     def __init__(self, largeur: int, hauteur: int) -> None:
-        self.labyrinthe: Fond = Fond("laby.png", largeur // 2, hauteur // 2)
+        self.labyrinthe: Fond = Fond("laby.png", largeur, hauteur)
         self.pikachu: Personnage = Personnage(20, 415, 1)
         self.pokeball: Objet = Objet(510, 110)
 
@@ -205,9 +211,7 @@ class Fin:
     """Scène de fin"""
 
     def __init__(self, largeur: int, hauteur: int) -> None:
-        self.fond_fin: Fond = Fond(
-            "fireworks.jpg", largeur // 2, hauteur // 2, True
-        )
+        self.fond_fin: Fond = Fond("fireworks.jpg", largeur, hauteur, True)
         self.message_gagne: Message = Message("Gagné !", "Avdira.otf", 100)
         self.rejouer: Bouton = Bouton(Message("Rejouer", "Avdira.otf", 50))
         self.hauteur: int = hauteur
