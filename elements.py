@@ -8,7 +8,7 @@ import pygame
 class Personnage(pygame.sprite.Sprite):
     """Personnage du jeu
     Peut se déplacer dans 4 directions
-    x_depart, y_depart: position initiale du personnage
+    centerx_depart, centery_depart: position initiale du personnage (centre)
     vitesse: vitesse de déplacement du personnage
     """
 
@@ -48,7 +48,7 @@ class Personnage(pygame.sprite.Sprite):
 
 class Objet(pygame.sprite.Sprite):
     """Objet à attrapper
-    x_depart, y_depart: position initiale de l'objet
+    centerx_depart, centery_depart: position initiale de l'objet (centre)
     """
 
     def __init__(self, centerx_depart: int, centery_depart: int) -> None:
@@ -66,7 +66,8 @@ class Objet(pygame.sprite.Sprite):
 class Fond(pygame.sprite.Sprite):
     """Fond d'écran
     filename: nom du fichier contenant l'image de fond
-    x_center, y_center: position du centre de l'image
+    largeur: largeur de la fenêtre
+    hauteur: hauteur de la fenêtre
     rescale: s'il faut redimensionner l'image ou non
     """
 
