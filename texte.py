@@ -27,12 +27,12 @@ class Message:
 
     def affiche(
         self,
-        fenetre: pygame.Surface,
         couleur: pygame.Color,
         centerx: int,
         centery: int,
     ) -> None:
         """Affiche le message sur la fenêtre"""
+        fenetre = pygame.display.get_surface()
         self.genere_surface(couleur, centerx, centery)
         fenetre.blit(self.surface, self.rect)
 
@@ -42,26 +42,24 @@ class Bouton:
     message: texte du bouton
     """
 
-    # TODO refactoring
-
     def __init__(self, message: Message) -> None:
         self.message: Message = message
         self.bouton: pygame.Rect = pygame.Rect(0, 0, 0, 0)
 
     def affiche(
         self,
-        fenetre: pygame.Surface,
         couleur: pygame.Color,
         couleur_fond: pygame.Color,
         centerx: int,
         centery: int,
     ) -> None:
         """Affiche le message sur la fenêtre"""
+        fenetre = pygame.display.get_surface()
         self.message.genere_surface(couleur, centerx, centery)
         self.bouton = self.message.rect.inflate(15, 15)
         self.bouton.center = (centerx, centery)
         pygame.draw.rect(fenetre, couleur_fond, self.bouton, border_radius=20)
-        self.message.affiche(fenetre, couleur, centerx, centery)
+        self.message.affiche(couleur, centerx, centery)
 
     def touche_souris(self) -> bool:
         """Détermine si la souris touche le bouton"""
