@@ -34,12 +34,23 @@ class Fenetre:
 
     def scene_suivante(self):
         """Passe à la scène suivante"""
-        self.no_scene += 1
-        self.scene_courante = self.scenes[self.no_scene % 2]()
+        if isinstance(self.scene_courante, Fin):
+            self.scene_courante = Partie()
+        elif (
+            isinstance(self.scene_courante, Partie)
+            and self.scene_courante.perdu
+        ):
+            self.scene_courante = Fin(False)
+        elif (
+            isinstance(self.scene_courante, Partie)
+            and self.scene_courante.gagne
+        ):
+            self.scene_courante = Fin(True)
 
     def jouer(self) -> None:
         """Lance le jeu"""
         while True:
+            self.scene_courante.joue_tour()
             if self.scene_courante.passe_suivant():
                 self.scene_suivante()
 
@@ -49,7 +60,7 @@ class Fenetre:
                     return
 
             # affichage
-            self.scene_courante.affiche_scene(self.fenetre)
+            self.scene_courante.affiche_scene()
             pygame.display.flip()
             self.clock.tick(60)
 

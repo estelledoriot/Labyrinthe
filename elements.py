@@ -1,5 +1,5 @@
 """
-Objets, Fonds et personnages du jeu
+Objets et personnages du jeu
 """
 
 import pygame
@@ -56,7 +56,7 @@ class Personnage(pygame.sprite.Sprite):
 
 
 class Objet(pygame.sprite.Sprite):
-    """Objet à attrapper
+    """Objet du jeu
     filename: nom du fichier contenant l'objet
     centerx_depart, centery_depart: position initiale de l'objet (centre)
     largeur_objet: largeur de l'objet à l'écran
@@ -78,6 +78,6 @@ class Objet(pygame.sprite.Sprite):
             self.image, largeur_objet / self.image.get_width()
         )
         self.mask: pygame.mask.Mask = pygame.mask.from_surface(self.image)
-
-        self.rect: pygame.Rect = self.image.get_rect()
-        self.rect.center = centerx_depart, centery_depart
+        self.rect: pygame.Rect = self.image.get_rect(
+            center=(centerx_depart, centery_depart)
+        )

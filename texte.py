@@ -67,7 +67,4 @@ class Bouton:
 
     def est_clique(self) -> bool:
         """Détermine si on clique sur le bouton"""
-        return self.touche_souris() and any(
-            evenement.type == pygame.MOUSEBUTTONDOWN
-            for evenement in pygame.event.get()
-        )
+        return self.touche_souris() and pygame.mouse.get_pressed()[0]
