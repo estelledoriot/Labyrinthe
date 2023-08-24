@@ -27,9 +27,7 @@ class Fenetre:
         pygame.display.set_icon(pygame.image.load("images/pika.png"))
 
         # état
-        self.scenes: list = [Partie, Fin]
         self.scene_courante: Scene = Partie()
-        self.no_scene: int = 0
         self.clock: pygame.time.Clock = pygame.time.Clock()
 
     def scene_suivante(self):
