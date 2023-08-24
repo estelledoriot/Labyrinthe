@@ -24,7 +24,7 @@ class Fenetre:
             (self.largeur, self.hauteur)
         )
         pygame.display.set_caption("Labyrinthe")
-        pygame.display.set_icon(pygame.image.load("pika.png"))
+        pygame.display.set_icon(pygame.image.load("images/pika.png"))
 
         # état
         self.scenes: list = [Partie, Fin]

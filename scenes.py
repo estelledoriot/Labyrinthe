@@ -31,13 +31,13 @@ class Partie:
 
         self.fond: pygame.Color = pygame.Color(255, 255, 255)
         self.labyrinthe: Objet = Objet(
-            "laby.png", largeur // 2, hauteur // 2, largeur - 38
+            "images/laby.png", largeur // 2, hauteur // 2, largeur - 38
         )
         self.pikachu: Personnage = Personnage(30, 425, 23, 2)
-        self.pokeball: Objet = Objet("pokeball.png", 510, 120, 20)
+        self.pokeball: Objet = Objet("images/pokeball.png", 510, 120, 20)
         self.start: int = pygame.time.get_ticks()
         self.timer: Message = Message(
-            str(self.temps_restant), "Avdira.otf", 40
+            str(self.temps_restant), "font/Avdira.otf", 40
         )
 
     def affiche_scene(self) -> None:
@@ -91,31 +91,31 @@ class Fin:
 
         self.fond: pygame.Color = pygame.Color(255, 255, 255)
         self.labyrinthe: Objet = Objet(
-            "laby.png", largeur // 2, hauteur // 2, largeur - 38
+            "images/laby.png", largeur // 2, hauteur // 2, largeur - 38
         )
         self.masque: pygame.Surface = pygame.Surface(
             (largeur, hauteur), flags=pygame.SRCALPHA
         )
         self.masque.fill(pygame.Color(230, 230, 230, 200))
         self.message_fin: Message = (
-            Message("Gagné !", "Avdira.otf", 100)
+            Message("Gagné !", "font/Avdira.otf", 100)
             if victoire
-            else Message("Perdu ...", "Avdira.otf", 100)
+            else Message("Perdu ...", "font/Avdira.otf", 100)
         )
         self.bouton_rejouer: Bouton = Bouton(
-            Message("Rejouer", "Avdira.otf", 50)
+            Message("Rejouer", "font/Avdira.otf", 50)
         )
 
     def affiche_scene(self) -> None:
         """Affiche la scène de fin"""
         fenetre = pygame.display.get_surface()
-        _, hauteur = pygame.display.get_window_size()
+        largeur, _ = pygame.display.get_window_size()
 
         fenetre.fill(self.fond)
         fenetre.blit(self.labyrinthe.image, self.labyrinthe.rect)
         fenetre.blit(self.masque, (0, 0))
         couleur_message = pygame.Color(169, 70, 55)
-        self.message_fin.affiche(couleur_message, hauteur // 2, 150)
+        self.message_fin.affiche(couleur_message, largeur // 2, 150)
         couleur_rejouer = (
             pygame.Color(255, 255, 255)
             if self.bouton_rejouer.touche_souris()
@@ -127,7 +127,7 @@ class Fin:
             else pygame.Color(50, 50, 50)
         )
         self.bouton_rejouer.affiche(
-            couleur_rejouer, couleur_fond, hauteur // 2, 400
+            couleur_rejouer, couleur_fond, largeur // 2, 400
         )
 
     def joue_tour(self) -> None:

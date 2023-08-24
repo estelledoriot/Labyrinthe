@@ -25,7 +25,7 @@ class Personnage(pygame.sprite.Sprite):
         self.vitesse: int = vitesse
 
         self.image: pygame.Surface = pygame.image.load(
-            "pika.png"
+            "images/pika.png"
         ).convert_alpha()
         self.image = pygame.transform.scale_by(
             self.image, taille / self.image.get_width()
