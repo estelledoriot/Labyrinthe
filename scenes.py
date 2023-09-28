@@ -62,7 +62,7 @@ class Partie:
             self.pikachu.revient_depart()
 
         # mise à jour du timer
-        self.countdown.update_etiquette()
+        self.countdown.update()
 
     def passe_suivant(self) -> bool:
         """Teste si la partie est terminée"""
@@ -123,7 +123,7 @@ class Fin:
         fenetre.blit(self.labyrinthe.image, self.labyrinthe.rect)
         fenetre.blit(self.masque, (0, 0))
         couleur_message = pygame.Color(169, 70, 55)
-        self.message_fin.affiche(couleur_message, largeur // 2, 150)
+        self.message_fin.draw(couleur_message, largeur // 2, 150)
         couleur_rejouer = (
             pygame.Color(255, 255, 255)
             if self.bouton_rejouer.touche_souris()
@@ -134,7 +134,7 @@ class Fin:
             if self.bouton_rejouer.touche_souris()
             else pygame.Color(50, 50, 50)
         )
-        self.bouton_rejouer.affiche(
+        self.bouton_rejouer.draw(
             couleur_rejouer, couleur_fond, largeur // 2, 400
         )
 

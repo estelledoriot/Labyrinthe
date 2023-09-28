@@ -24,7 +24,7 @@ class Countdown:
             self.temps_total - (pygame.time.get_ticks() - self.start) // 1000
         )
 
-    def update_etiquette(self) -> None:
+    def update(self) -> None:
         """Mise à jour du nombre à afficher"""
         self.etiquette.texte = str(self.temps_restant)
 
@@ -32,4 +32,4 @@ class Countdown:
         """Affiche le timer à l'écran"""
         largeur, _ = pygame.display.get_window_size()
         couleur_timer = pygame.Color(235, 80, 63)
-        self.etiquette.affiche(couleur_timer, largeur - 80, 60)
+        self.etiquette.draw(couleur_timer, largeur - 80, 60)
