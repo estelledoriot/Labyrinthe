@@ -38,7 +38,7 @@ class Partie:
         )
         self.pikachu: Personnage = Personnage(30, 425, 23, 2)
         self.pokeball: Objet = Objet("images/pokeball.png", 510, 120, 20)
-        self.countdown: Countdown = Countdown()
+        self.countdown: Countdown = Countdown(30)
         self.son: pygame.mixer.Sound = pygame.mixer.Sound("sounds/crunch.wav")
         self.son.set_volume(0.25)
 
