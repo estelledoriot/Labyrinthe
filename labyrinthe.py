@@ -4,14 +4,12 @@
     - si tu touches les murs, tu retournes au point de départ
 """
 
-# TODO: ajout sons
-
 import pygame
 
 from scenes import Fin, Partie, Scene
 
 
-class Fenetre:
+class Jeu:
     """Jeu"""
 
     def __init__(self) -> None:
@@ -64,6 +62,6 @@ class Fenetre:
 
 
 if __name__ == "__main__":
-    jeu = Fenetre()
+    jeu = Jeu()
     jeu.jouer()
     pygame.quit()

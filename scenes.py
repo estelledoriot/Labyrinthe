@@ -39,6 +39,8 @@ class Partie:
         self.pikachu: Personnage = Personnage(30, 425, 23, 2)
         self.pokeball: Objet = Objet("images/pokeball.png", 510, 120, 20)
         self.countdown: Countdown = Countdown()
+        self.son: pygame.mixer.Sound = pygame.mixer.Sound("sounds/crunch.wav")
+        self.son.set_volume(0.25)
 
     def affiche_scene(self) -> None:
         """Affiche les éléments du jeu"""
@@ -56,6 +58,7 @@ class Partie:
 
         # collision avec le labyrinthe
         if pygame.sprite.collide_mask(self.pikachu, self.labyrinthe):
+            self.son.play()
             self.pikachu.revient_depart()
 
         # mise à jour du timer
@@ -90,6 +93,7 @@ class Fin:
             (largeur, hauteur), flags=pygame.SRCALPHA
         )
         self.masque.fill(pygame.Color(230, 230, 230, 200))
+
         self.message_fin: Texte = (
             Texte("Gagné !", "font/Avdira.otf", 100)
             if victoire
@@ -98,6 +102,17 @@ class Fin:
         self.bouton_rejouer: Bouton = Bouton(
             Texte("Rejouer", "font/Avdira.otf", 50)
         )
+
+        self.son_fin: pygame.mixer.Sound = pygame.mixer.Sound(
+            "sounds/gong.wav"
+        )
+        self.son_fin.set_volume(0.25)
+        self.son_fin.play()
+
+        self.son_bouton: pygame.mixer.Sound = pygame.mixer.Sound(
+            "sounds/pop.wav"
+        )
+        self.son_bouton.set_volume(0.25)
 
     def affiche_scene(self) -> None:
         """Affiche la scène de fin"""
@@ -125,6 +140,8 @@ class Fin:
 
     def joue_tour(self) -> None:
         """Rien"""
+        if self.passe_suivant():
+            self.son_bouton.play()
 
     def passe_suivant(self) -> bool:
         """Vérifie si le bouton rejouer est cliqué"""
