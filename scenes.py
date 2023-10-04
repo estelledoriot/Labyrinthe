@@ -6,11 +6,11 @@ from typing import Protocol
 
 import pygame
 
-from bouton import Bouton
+from button import Button
 from countdown import Countdown
-from objet import Objet
-from personnage import Personnage
-from texte import Texte
+from object import Object
+from pikachu import Pikachu
+from text import Text
 
 
 class Scene(Protocol):
@@ -33,12 +33,12 @@ class Partie:
         largeur, hauteur = pygame.display.get_window_size()
 
         self.fond: pygame.Color = pygame.Color(255, 255, 255)
-        self.labyrinthe: Objet = Objet(
-            "images/laby.png", largeur // 2, hauteur // 2, largeur - 38
+        self.labyrinthe: Object = Object(
+            "images/laby.png", (largeur // 2, hauteur // 2), largeur - 38
         )
-        self.pikachu: Personnage = Personnage(30, 425, 23, 2)
-        self.pokeball: Objet = Objet("images/pokeball.png", 510, 120, 20)
-        self.countdown: Countdown = Countdown(30)
+        self.pikachu: Pikachu = Pikachu((30, 425), 23, 2)
+        self.pokeball: Object = Object("images/pokeball.png", (510, 120), 20)
+        self.countdown: Countdown = Countdown(30, (largeur - 80, 60))
         self.son: pygame.mixer.Sound = pygame.mixer.Sound("sounds/crunch.wav")
         self.son.set_volume(0.25)
 
@@ -49,7 +49,7 @@ class Partie:
         fenetre.blit(self.labyrinthe.image, self.labyrinthe.rect)
         fenetre.blit(self.pikachu.image, self.pikachu.rect)
         fenetre.blit(self.pokeball.image, self.pokeball.rect)
-        self.countdown.draw()
+        fenetre.blit(self.countdown.image, self.countdown.rect)
 
     def joue_tour(self) -> None:
         """Joue un tour du jeu"""
@@ -59,7 +59,7 @@ class Partie:
         # collision avec le labyrinthe
         if pygame.sprite.collide_mask(self.pikachu, self.labyrinthe):
             self.son.play()
-            self.pikachu.revient_depart()
+            self.pikachu.goto_start()
 
         # mise à jour du timer
         self.countdown.update()
@@ -76,7 +76,7 @@ class Partie:
     @property
     def perdu(self) -> bool:
         """Vérifie si la partie est perdue (le temps est écoulé)"""
-        return self.countdown.temps_restant < 0
+        return self.countdown.temps_restant <= 0
 
 
 class Fin:
@@ -86,21 +86,21 @@ class Fin:
         largeur, hauteur = pygame.display.get_window_size()
 
         self.fond: pygame.Color = pygame.Color(255, 255, 255)
-        self.labyrinthe: Objet = Objet(
-            "images/laby.png", largeur // 2, hauteur // 2, largeur - 38
+        self.labyrinthe: Object = Object(
+            "images/laby.png", (largeur // 2, hauteur // 2), largeur - 38
         )
         self.masque: pygame.Surface = pygame.Surface(
             (largeur, hauteur), flags=pygame.SRCALPHA
         )
         self.masque.fill(pygame.Color(230, 230, 230, 200))
 
-        self.message_fin: Texte = (
-            Texte("Gagné !", "font/Avdira.otf", 100)
+        self.message_fin: Text = (
+            Text("Gagné !", (largeur // 2, 150))
             if victoire
-            else Texte("Perdu ...", "font/Avdira.otf", 100)
+            else Text("Perdu ...", (largeur // 2, 150))
         )
-        self.bouton_rejouer: Bouton = Bouton(
-            Texte("Rejouer", "font/Avdira.otf", 50)
+        self.bouton_rejouer: Button = Button(
+            "Rejouer", (250, 80), (largeur // 2, 400)
         )
 
         self.son_fin: pygame.mixer.Sound = pygame.mixer.Sound(
@@ -118,31 +118,17 @@ class Fin:
     def affiche_scene(self) -> None:
         """Affiche la scène de fin"""
         fenetre = pygame.display.get_surface()
-        largeur, _ = pygame.display.get_window_size()
-
         fenetre.fill(self.fond)
         fenetre.blit(self.labyrinthe.image, self.labyrinthe.rect)
         fenetre.blit(self.masque, (0, 0))
-        couleur_message = pygame.Color(169, 70, 55)
-        self.message_fin.draw(couleur_message, largeur // 2, 150)
-        couleur_rejouer = (
-            pygame.Color(255, 255, 255)
-            if self.bouton_rejouer.touche_souris()
-            else pygame.Color(240, 240, 240)
-        )
-        couleur_fond = (
-            pygame.Color(80, 80, 80)
-            if self.bouton_rejouer.touche_souris()
-            else pygame.Color(50, 50, 50)
-        )
-        self.bouton_rejouer.draw(
-            couleur_rejouer, couleur_fond, largeur // 2, 400
-        )
+        fenetre.blit(self.message_fin.image, self.message_fin.rect)
+        fenetre.blit(self.bouton_rejouer.image, self.bouton_rejouer.rect)
 
     def joue_tour(self) -> None:
         """Rien"""
+        self.bouton_rejouer.update()
         for _ in pygame.event.get(pygame.MOUSEBUTTONDOWN):
-            if self.bouton_rejouer.touche_souris():
+            if self.bouton_rejouer.touch_mouse():
                 self.son_bouton.play()
                 self.next = True
 
