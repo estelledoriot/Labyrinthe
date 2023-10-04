@@ -5,12 +5,13 @@ classe Countdown
 import pygame
 
 
-class Countdown:
+class Countdown(pygame.sprite.Sprite):
     """compte à rebours
     total_time: temps total pour jouer
     position: position du timer"""
 
     def __init__(self, total_time: int, position: tuple[int, int]) -> None:
+        super().__init__()
         self.start_time: int = pygame.time.get_ticks()
         self.total_time: int = total_time
 

@@ -5,7 +5,7 @@ classe Button
 import pygame
 
 
-class Button:
+class Button(pygame.sprite.Sprite):
     """Bouton
     text: texte du bouton
     size: taille du bouton
@@ -15,6 +15,7 @@ class Button:
     def __init__(
         self, text: str, size: tuple[int, int], position: tuple[int, int]
     ) -> None:
+        super().__init__()
         self.font: pygame.font.Font = pygame.font.Font("font/Avdira.otf", 50)
         self.text: str = text
         self.text_color: tuple[pygame.Color, pygame.Color] = (

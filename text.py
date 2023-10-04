@@ -5,14 +5,15 @@ classe Text
 import pygame
 
 
-class Text:
+class Text(pygame.sprite.Sprite):
     """Texte
     text: texte à afficher
     position: position du texte
     """
 
     def __init__(self, text: str, position: tuple[int, int]) -> None:
-        self.font: pygame.font.Font = pygame.font.Font("font/Avdira.otf", 50)
+        super().__init__()
+        self.font: pygame.font.Font = pygame.font.Font("font/Avdira.otf", 100)
         self.text: str = text
         self.color: pygame.Color = pygame.Color(169, 70, 55)
         self.image: pygame.Surface = self.font.render(
