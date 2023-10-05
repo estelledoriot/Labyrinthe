@@ -73,7 +73,7 @@ class Game:
     @property
     def lost(self) -> bool:
         """Vérifie si la partie est perdue (le temps est écoulé)"""
-        return self.countdown.temps_restant <= 0
+        return self.countdown.time_finished
 
     def run_game(self) -> None:
         """Fait tourner le jeu"""

@@ -13,4 +13,4 @@ class FilledSurface(pygame.sprite.Sprite):
             size, flags=pygame.SRCALPHA
         )
         self.image.fill(color)
-        self.rect: pygame.rect.Rect = self.image.get_rect()
+        self.rect: pygame.Rect = self.image.get_rect()
